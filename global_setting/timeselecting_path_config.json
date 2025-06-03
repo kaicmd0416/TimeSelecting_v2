@@ -1,0 +1,145 @@
+{
+    "components": {
+        "data_source": {
+            "mode": "sql"
+        },
+        "database": {
+            "database1": {
+                "host": "rm-bp1o6we7s3o1h76x1to.mysql.rds.aliyuncs.com",
+                "port": 3306,
+                "user": "kai",
+                "password": "Abcd1234#",
+                "database": "data_prepared",
+                "charset": "utf8mb4"
+            },
+            "database2": {
+                "host": "localhost",
+                "port": 3306,
+                "user": "root",
+                "password": "root",
+                "database": "data_prepared",
+                "charset": "utf8mb4"
+            }
+        }
+    },
+    "main_folder": [
+        {
+            "folder_type": "input_folder",
+            "path": "onedrive\\Data_prepared\\data_timeSeries",
+            "disk": "D:"
+        },
+        {
+            "folder_type": "output_folder",
+            "path": "Signal_v2",
+            "disk": "D"
+        },
+        {
+            "folder_type": "project_folder",
+            "path": "TimeSelecting_v2",
+            "disk": "D"
+        },
+        {
+            "folder_type": "project_config",
+            "path": "TimeSelecting_v2\\config_project",
+            "disk": "D"
+        }
+    ],
+    "sub_folder": [
+        {
+            "data_type": "raw_Shibor",
+            "folder_name": "macro_data\\Shibor.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_Bond",
+            "folder_name": "macro_data\\ChinaGovernmentBonds.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_ZZGK",
+            "folder_name": "macro_data\\ChinaDevelopmentBankBonds.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_ZZZD",
+            "folder_name": "macro_data\\ChinaMediumTermNotes.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_M1M2",
+            "folder_name": "macro_data\\M1M2.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_CPI",
+            "folder_name": "macro_data\\CPI.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_PPI",
+            "folder_name": "macro_data\\PPI.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_PMI",
+            "folder_name": "macro_data\\PMI.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_macro"
+        },
+        {
+            "data_type": "raw_indexReturn",
+            "folder_name": "index_data\\index_return.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexVolume",
+            "folder_name": "index_data\\IndexVolume.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexTurnOver",
+            "folder_name": "index_data\\IndexTurn.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexAMT",
+            "folder_name": "index_data\\IndexAmt.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexClose",
+            "folder_name": "index_data\\IndexClose.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexHigh",
+            "folder_name": "index_data\\IndexHigh.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexLow",
+            "folder_name": "index_data\\IndexLow.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexOpen",
+            "folder_name": "index_data\\IndexOpen.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        }
+    ]
+} 

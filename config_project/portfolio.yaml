@@ -1,0 +1,25 @@
+# Portfolio Configuration Settings
+
+# Index Categories and Their Portfolios
+indices:
+  hs300:
+    portfolios:
+      - name: "fm03_hs300_HB"
+        weight: 1
+        description: "HS300 Portfolio 1"
+  
+  zz500:
+    portfolios:
+      - name: "combine_zz500_HB"
+        weight: 1
+        description: "ZZ500 Portfolio 1"
+  
+  zz1000:
+    portfolios:
+      - name: "a3_top200"
+        weight: 0.9
+        description: "ZZ1000 Portfolio 1"
+      - name: "a3_top5"
+        weight: 0.1
+        description: "ZZ1000 Portfolio 2"
+

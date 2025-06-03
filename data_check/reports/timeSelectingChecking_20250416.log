@@ -1,0 +1,355 @@
+2025-04-16 00:00:09,742 - 开始数据检查 - 检查期间: 2024-04-15 到 2025-04-15
+2025-04-16 00:00:09,742 - 目标日期: 2025-04-15
+2025-04-16 00:00:09,743 - 
+检查信号: CreditSpread_9M
+2025-04-16 00:00:09,754 - 文件 ChinaDevelopmentBankBonds.csv 数据完整
+2025-04-16 00:00:09,764 - 文件 ChinaMediumTermNotes.csv 数据完整
+2025-04-16 00:00:09,765 - 信号 CreditSpread_9M 检查完成，状态: normal
+
+2025-04-16 00:00:09,765 - 
+检查信号数据: CreditSpread_9M_1D_9_combine
+2025-04-16 00:00:09,765 - 数据路径: D:\Signal\signal_boost\prod\CreditSpread_9M_1D_9_combine
+2025-04-16 00:00:09,937 - 所有工作日数据完整
+2025-04-16 00:00:09,937 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:09,937 - 信号 CreditSpread_9M_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:14,897 - 
+检查信号: CreditSpread_5Y
+2025-04-16 00:00:14,908 - 文件 ChinaDevelopmentBankBonds.csv 数据完整
+2025-04-16 00:00:14,918 - 文件 ChinaMediumTermNotes.csv 数据完整
+2025-04-16 00:00:14,918 - 信号 CreditSpread_5Y 检查完成，状态: normal
+
+2025-04-16 00:00:14,918 - 
+检查信号数据: CreditSpread_5Y_1D_9_combine
+2025-04-16 00:00:14,918 - 数据路径: D:\Signal\signal_boost\prod\CreditSpread_5Y_1D_9_combine
+2025-04-16 00:00:15,081 - 所有工作日数据完整
+2025-04-16 00:00:15,081 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:15,081 - 信号 CreditSpread_5Y_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:20,190 - 
+检查信号: Shibor_2W
+2025-04-16 00:00:20,200 - 文件 Shibor.csv 数据完整
+2025-04-16 00:00:20,200 - 信号 Shibor_2W 检查完成，状态: normal
+
+2025-04-16 00:00:20,200 - 
+检查信号数据: Shibor_2W_45D_9_combine
+2025-04-16 00:00:20,200 - 数据路径: D:\Signal\signal_boost\prod\Shibor_2W_45D_9_combine
+2025-04-16 00:00:20,357 - 所有工作日数据完整
+2025-04-16 00:00:20,357 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:20,358 - 信号 Shibor_2W_45D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:27,317 - 
+检查信号: Shibor_9M
+2025-04-16 00:00:27,327 - 文件 Shibor.csv 数据完整
+2025-04-16 00:00:27,327 - 信号 Shibor_9M 检查完成，状态: normal
+
+2025-04-16 00:00:27,328 - 
+检查信号数据: Shibor_9M_45D_9_combine
+2025-04-16 00:00:27,328 - 数据路径: D:\Signal\signal_boost\prod\Shibor_9M_45D_9_combine
+2025-04-16 00:00:27,485 - 所有工作日数据完整
+2025-04-16 00:00:27,486 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:27,486 - 信号 Shibor_9M_45D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:32,958 - 
+检查信号: Bond_3Y
+2025-04-16 00:00:32,968 - 文件 ChinaGovernmentBonds.csv 数据完整
+2025-04-16 00:00:32,968 - 信号 Bond_3Y 检查完成，状态: normal
+
+2025-04-16 00:00:32,968 - 
+检查信号数据: Bond_3Y_90D_9_combine
+2025-04-16 00:00:32,968 - 数据路径: D:\Signal\signal_boost\prod\Bond_3Y_90D_9_combine
+2025-04-16 00:00:33,121 - 所有工作日数据完整
+2025-04-16 00:00:33,121 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:33,121 - 信号 Bond_3Y_90D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:39,965 - 
+检查信号: Bond_10Y
+2025-04-16 00:00:39,974 - 文件 ChinaGovernmentBonds.csv 数据完整
+2025-04-16 00:00:39,974 - 信号 Bond_10Y 检查完成，状态: normal
+
+2025-04-16 00:00:39,974 - 
+检查信号数据: Bond_10Y_90D_9_combine
+2025-04-16 00:00:39,974 - 数据路径: D:\Signal\signal_boost\prod\Bond_10Y_90D_9_combine
+2025-04-16 00:00:40,128 - 所有工作日数据完整
+2025-04-16 00:00:40,128 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:40,129 - 信号 Bond_10Y_90D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:46,823 - 
+检查信号: USDX
+2025-04-16 00:00:46,833 - 文件 UsDollar.csv 数据完整
+2025-04-16 00:00:46,834 - 信号 USDX 检查完成，状态: normal
+
+2025-04-16 00:00:46,834 - 
+检查信号数据: USDX_120D_9_combine
+2025-04-16 00:00:46,834 - 数据路径: D:\Signal\signal_boost\prod\USDX_120D_9_combine
+2025-04-16 00:00:46,983 - 所有工作日数据完整
+2025-04-16 00:00:46,983 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:46,983 - 信号 USDX_120D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:00:53,573 - 
+检查信号: TermSpread_9Y
+2025-04-16 00:00:53,583 - 文件 ChinaDevelopmentBankBonds.csv 数据完整
+2025-04-16 00:00:53,583 - 信号 TermSpread_9Y 检查完成，状态: normal
+
+2025-04-16 00:00:53,583 - 
+检查信号数据: TermSpread_9Y_120D_9_combine
+2025-04-16 00:00:53,584 - 数据路径: D:\Signal\signal_boost\prod\TermSpread_9Y_120D_9_combine
+2025-04-16 00:00:53,735 - 所有工作日数据完整
+2025-04-16 00:00:53,735 - 最新数据日期: 2025-04-16
+2025-04-16 00:00:53,735 - 信号 TermSpread_9Y_120D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:00,444 - 
+检查信号: M1M2
+2025-04-16 00:01:00,456 - 文件 M1M2.csv 数据完整
+2025-04-16 00:01:00,456 - 信号 M1M2 检查完成，状态: normal
+
+2025-04-16 00:01:00,456 - 
+检查信号数据: M1M2_90D_9_combine
+2025-04-16 00:01:00,456 - 数据路径: D:\Signal\signal_boost\prod\M1M2_90D_9_combine
+2025-04-16 00:01:00,610 - 所有工作日数据完整
+2025-04-16 00:01:00,610 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:00,611 - 信号 M1M2_90D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:07,217 - 
+检查信号: RelativeVolume_std
+2025-04-16 00:01:07,230 - 文件 IndexVolume.csv 数据完整
+2025-04-16 00:01:07,230 - 信号 RelativeVolume_std 检查完成，状态: normal
+
+2025-04-16 00:01:07,231 - 
+检查信号数据: RelativeVolume_std_20D_9_combine
+2025-04-16 00:01:07,231 - 数据路径: D:\Signal\signal_boost\prod\RelativeVolume_std_20D_9_combine
+2025-04-16 00:01:07,395 - 所有工作日数据完整
+2025-04-16 00:01:07,395 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:07,395 - 信号 RelativeVolume_std_20D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:12,478 - 
+检查信号: RelativeReturn_std
+2025-04-16 00:01:12,501 - 文件 index_return.csv 数据完整
+2025-04-16 00:01:12,501 - 信号 RelativeReturn_std 检查完成，状态: normal
+
+2025-04-16 00:01:12,501 - 
+检查信号数据: RelativeReturn_std_20D_9_combine
+2025-04-16 00:01:12,501 - 数据路径: D:\Signal\signal_boost\prod\RelativeReturn_std_20D_9_combine
+2025-04-16 00:01:12,663 - 所有工作日数据完整
+2025-04-16 00:01:12,663 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:12,663 - 信号 RelativeReturn_std_20D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:17,834 - 
+检查信号: EarningsYield_Reverse
+2025-04-16 00:01:17,848 - 文件 ygData.csv 数据完整
+2025-04-16 00:01:17,848 - 信号 EarningsYield_Reverse 检查完成，状态: normal
+
+2025-04-16 00:01:17,848 - 
+检查信号数据: EarningsYield_Reverse_1D_9_combine
+2025-04-16 00:01:17,848 - 数据路径: D:\Signal\signal_boost\prod\EarningsYield_Reverse_1D_9_combine
+2025-04-16 00:01:18,154 - 所有工作日数据完整
+2025-04-16 00:01:18,154 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:18,154 - 信号 EarningsYield_Reverse_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:23,219 - 
+检查信号: Growth
+2025-04-16 00:01:23,233 - 文件 ygData.csv 数据完整
+2025-04-16 00:01:23,233 - 信号 Growth 检查完成，状态: normal
+
+2025-04-16 00:01:23,233 - 
+检查信号数据: Growth_1D_9_combine
+2025-04-16 00:01:23,233 - 数据路径: D:\Signal\signal_boost\prod\Growth_1D_9_combine
+2025-04-16 00:01:23,539 - 所有工作日数据完整
+2025-04-16 00:01:23,539 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:23,539 - 信号 Growth_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:28,604 - 
+检查信号: LHBProportion
+2025-04-16 00:01:28,613 - 文件 LHB_AMT_proportion.csv 数据完整
+2025-04-16 00:01:28,627 - 文件 IndexAmt.csv 数据完整
+2025-04-16 00:01:28,628 - 信号 LHBProportion 检查完成，状态: normal
+
+2025-04-16 00:01:28,628 - 
+检查信号数据: LHBProportion_1D_9_combine
+2025-04-16 00:01:28,628 - 数据路径: D:\Signal\signal_boost\prod\LHBProportion_1D_9_combine
+2025-04-16 00:01:28,792 - 所有工作日数据完整
+2025-04-16 00:01:28,793 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:28,793 - 信号 LHBProportion_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:33,756 - 
+检查信号: NLBP_difference
+2025-04-16 00:01:33,766 - 文件 NetLeverageBuying.csv 数据完整
+2025-04-16 00:01:33,766 - 信号 NLBP_difference 检查完成，状态: normal
+
+2025-04-16 00:01:33,767 - 
+检查信号数据: NLBP_difference_1D_9_combine
+2025-04-16 00:01:33,767 - 数据路径: D:\Signal\signal_boost\prod\NLBP_difference_1D_9_combine
+2025-04-16 00:01:33,931 - 所有工作日数据完整
+2025-04-16 00:01:33,931 - 最新数据日期: 2025-04-15
+2025-04-16 00:01:33,931 - 信号 NLBP_difference_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:38,841 - 
+检查信号: LargeOrder_difference
+2025-04-16 00:01:38,851 - 文件 LargeOrderInflow.csv 数据完整
+2025-04-16 00:01:38,851 - 信号 LargeOrder_difference 检查完成，状态: normal
+
+2025-04-16 00:01:38,851 - 
+检查信号数据: LargeOrder_difference_1D_9_combine
+2025-04-16 00:01:38,851 - 数据路径: D:\Signal\signal_boost\prod\LargeOrder_difference_1D_9_combine
+2025-04-16 00:01:39,133 - 所有工作日数据完整
+2025-04-16 00:01:39,133 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:39,133 - 信号 LargeOrder_difference_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:43,296 - 
+检查信号: Monthly_effect
+2025-04-16 00:01:43,319 - 文件 index_return.csv 数据完整
+2025-04-16 00:01:43,320 - 信号 Monthly_effect 检查完成，状态: normal
+
+2025-04-16 00:01:43,320 - 
+检查信号数据: Monthly_effect_1D_9_combine
+2025-04-16 00:01:43,320 - 数据路径: D:\Signal\signal_boost\prod\Monthly_effect_1D_9_combine
+2025-04-16 00:01:43,637 - 所有工作日数据完整
+2025-04-16 00:01:43,637 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:43,637 - 信号 Monthly_effect_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:52,189 - 
+检查信号: CPI
+2025-04-16 00:01:52,201 - 文件 CPI.csv 数据完整
+2025-04-16 00:01:52,201 - 信号 CPI 检查完成，状态: normal
+
+2025-04-16 00:01:52,201 - 
+检查信号数据: CPI_1D_9_combine
+2025-04-16 00:01:52,201 - 数据路径: D:\Signal\signal_boost\prod\CPI_1D_9_combine
+2025-04-16 00:01:52,524 - 所有工作日数据完整
+2025-04-16 00:01:52,524 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:52,524 - 信号 CPI_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:01:58,149 - 
+检查信号: PPI
+2025-04-16 00:01:58,160 - 文件 PPI.csv 数据完整
+2025-04-16 00:01:58,161 - 信号 PPI 检查完成，状态: normal
+
+2025-04-16 00:01:58,161 - 
+检查信号数据: PPI_1D_9_combine
+2025-04-16 00:01:58,161 - 数据路径: D:\Signal\signal_boost\prod\PPI_1D_9_combine
+2025-04-16 00:01:58,478 - 所有工作日数据完整
+2025-04-16 00:01:58,478 - 最新数据日期: 2025-04-16
+2025-04-16 00:01:58,478 - 信号 PPI_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:02:04,116 - 
+检查信号: PMI
+2025-04-16 00:02:04,128 - 文件 PMI.csv 数据完整
+2025-04-16 00:02:04,128 - 信号 PMI 检查完成，状态: normal
+
+2025-04-16 00:02:04,128 - 
+检查信号数据: PMI_1D_9_combine
+2025-04-16 00:02:04,128 - 数据路径: D:\Signal\signal_boost\prod\PMI_1D_9_combine
+2025-04-16 00:02:04,442 - 所有工作日数据完整
+2025-04-16 00:02:04,442 - 最新数据日期: 2025-04-16
+2025-04-16 00:02:04,442 - 信号 PMI_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:02:10,096 - 
+检查信号: Stock_HL
+2025-04-16 00:02:12,335 - 文件 stock_close.csv 数据完整
+2025-04-16 00:02:12,335 - 信号 Stock_HL 检查完成，状态: normal
+
+2025-04-16 00:02:12,335 - 
+检查信号数据: Stock_HL_1D_9_combine
+2025-04-16 00:02:12,335 - 数据路径: D:\Signal\signal_boost\prod\Stock_HL_1D_9_combine
+2025-04-16 00:02:12,616 - 所有工作日数据完整
+2025-04-16 00:02:12,616 - 最新数据日期: 2025-04-16
+2025-04-16 00:02:12,616 - 信号 Stock_HL_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:02:40,482 - 
+检查信号: Rsi_difference
+2025-04-16 00:02:42,730 - 文件 stock_close.csv 数据完整
+2025-04-16 00:02:42,730 - 信号 Rsi_difference 检查完成，状态: normal
+
+2025-04-16 00:02:42,730 - 
+检查信号数据: Rsi_difference_1D_9_combine
+2025-04-16 00:02:42,731 - 数据路径: D:\Signal\signal_boost\prod\Rsi_difference_1D_9_combine
+2025-04-16 00:02:43,017 - 所有工作日数据完整
+2025-04-16 00:02:43,017 - 最新数据日期: 2025-04-16
+2025-04-16 00:02:43,017 - 信号 Rsi_difference_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:10,672 - 
+检查信号: RaisingTrend_proportion
+2025-04-16 00:03:12,918 - 文件 stock_close.csv 数据完整
+2025-04-16 00:03:12,918 - 信号 RaisingTrend_proportion 检查完成，状态: normal
+
+2025-04-16 00:03:12,919 - 
+检查信号数据: RaisingTrend_proportion_1D_9_combine
+2025-04-16 00:03:12,919 - 数据路径: D:\Signal\signal_boost\prod\RaisingTrend_proportion_1D_9_combine
+2025-04-16 00:03:13,171 - 所有工作日数据完整
+2025-04-16 00:03:13,172 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:13,172 - 信号 RaisingTrend_proportion_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:29,552 - 
+检查信号: TargetIndex_MACD
+2025-04-16 00:03:29,575 - 文件 index_return.csv 数据完整
+2025-04-16 00:03:29,576 - 信号 TargetIndex_MACD 检查完成，状态: normal
+
+2025-04-16 00:03:29,576 - 
+检查信号数据: TargetIndex_MACD_1D_9_combine
+2025-04-16 00:03:29,576 - 数据路径: D:\Signal\signal_boost\prod\TargetIndex_MACD_1D_9_combine
+2025-04-16 00:03:29,893 - 所有工作日数据完整
+2025-04-16 00:03:29,893 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:29,893 - 信号 TargetIndex_MACD_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:35,113 - 
+检查信号: TargetIndex_RSI
+2025-04-16 00:03:35,136 - 文件 index_return.csv 数据完整
+2025-04-16 00:03:35,136 - 信号 TargetIndex_RSI 检查完成，状态: normal
+
+2025-04-16 00:03:35,136 - 
+检查信号数据: TargetIndex_RSI_1D_9_combine
+2025-04-16 00:03:35,136 - 数据路径: D:\Signal\signal_boost\prod\TargetIndex_RSI_1D_9_combine
+2025-04-16 00:03:35,457 - 所有工作日数据完整
+2025-04-16 00:03:35,457 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:35,457 - 信号 TargetIndex_RSI_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:40,684 - 
+检查信号: TargetIndex_BBANDS
+2025-04-16 00:03:40,706 - 文件 index_return.csv 数据完整
+2025-04-16 00:03:40,706 - 信号 TargetIndex_BBANDS 检查完成，状态: normal
+
+2025-04-16 00:03:40,706 - 
+检查信号数据: TargetIndex_BBANDS_1D_9_combine
+2025-04-16 00:03:40,707 - 数据路径: D:\Signal\signal_boost\prod\TargetIndex_BBANDS_1D_9_combine
+2025-04-16 00:03:41,028 - 所有工作日数据完整
+2025-04-16 00:03:41,028 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:41,028 - 信号 TargetIndex_BBANDS_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:46,259 - 
+检查信号: TargetIndex_MOMENTUM
+2025-04-16 00:03:46,283 - 文件 index_return.csv 数据完整
+2025-04-16 00:03:46,283 - 信号 TargetIndex_MOMENTUM 检查完成，状态: normal
+
+2025-04-16 00:03:46,283 - 
+检查信号数据: TargetIndex_MOMENTUM_1D_9_combine
+2025-04-16 00:03:46,283 - 数据路径: D:\Signal\signal_boost\prod\TargetIndex_MOMENTUM_1D_9_combine
+2025-04-16 00:03:46,602 - 所有工作日数据完整
+2025-04-16 00:03:46,603 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:46,603 - 信号 TargetIndex_MOMENTUM_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:51,795 - 
+检查信号: TargetIndex_PSA
+2025-04-16 00:03:51,808 - 文件 IndexClose.csv 数据完整
+2025-04-16 00:03:51,821 - 文件 IndexHigh.csv 数据完整
+2025-04-16 00:03:51,834 - 文件 IndexLow.csv 数据完整
+2025-04-16 00:03:51,834 - 信号 TargetIndex_PSA 检查完成，状态: normal
+
+2025-04-16 00:03:51,834 - 
+检查信号数据: TargetIndex_PSA_1D_9_combine
+2025-04-16 00:03:51,834 - 数据路径: D:\Signal\signal_boost\prod\TargetIndex_PSA_1D_9_combine
+2025-04-16 00:03:52,156 - 所有工作日数据完整
+2025-04-16 00:03:52,156 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:52,156 - 信号 TargetIndex_PSA_1D_9_combine 检查完成，状态: normal
+
+2025-04-16 00:03:57,633 - 
+检查信号: TargetIndex_MOMENTUM2
+2025-04-16 00:03:57,656 - 文件 index_return.csv 数据完整
+2025-04-16 00:03:57,656 - 信号 TargetIndex_MOMENTUM2 检查完成，状态: normal
+
+2025-04-16 00:03:57,657 - 
+检查信号数据: TargetIndex_MOMENTUM2_1D_9_combine
+2025-04-16 00:03:57,657 - 数据路径: D:\Signal\signal_boost\prod\TargetIndex_MOMENTUM2_1D_9_combine
+2025-04-16 00:03:57,977 - 所有工作日数据完整
+2025-04-16 00:03:57,978 - 最新数据日期: 2025-04-16
+2025-04-16 00:03:57,978 - 信号 TargetIndex_MOMENTUM2_1D_9_combine 检查完成，状态: normal
+

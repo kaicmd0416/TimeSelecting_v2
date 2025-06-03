@@ -1,0 +1,148 @@
+# 数据检查配置文件
+raw_data_paths:
+  # Shibor相关因子
+  Shibor_2W:
+    path: raw_Shibor
+    description: "2周Shibor利率数据"
+  Shibor_9M:
+    path: raw_Shibor
+    description: "9个月Shibor利率数据"
+  # 债券相关因子
+  Bond_3Y:
+    path: raw_Bond
+    description: "3年期国债收益率数据"
+  Bond_10Y:
+    path: raw_Bond
+    description: "10年期国债收益率数据"
+  
+  # 美元指数因子
+  USDX:
+    path: raw_USDX
+    description: "美元指数数据"
+  
+  # 信用利差相关因子
+  CreditSpread_3M:
+    path: 
+      - raw_ZZGK
+      - raw_ZZZD
+    description: "3个月信用利差数据"
+  CreditSpread_9M:
+    path:
+      - raw_ZZGK
+      - raw_ZZZD
+    description: "9个月信用利差数据"
+  CreditSpread_5Y:
+    path:
+      - raw_ZZGK
+      - raw_ZZZD
+    description: "5年信用利差数据"
+  
+  # 期限利差因子
+  TermSpread_9Y:
+    path: raw_ZZGK
+    description: "9年期期限利差数据"
+  
+  # M1M2因子
+  M1M2:
+    path: raw_M1M2
+    description: "M1M2货币供应量数据"
+  
+  # 美股因子
+  USStock:
+    path: raw_usstock
+    description: "美股市场数据"
+  
+  # 相对成交量因子
+  RelativeVolume_std:
+    path: raw_indexVolume
+    description: "相对成交量标准差数据"
+  
+  # 相对收益率因子
+  RelativeReturn_std:
+    path: raw_return
+    description: "相对收益率标准差数据"
+  
+  # 盈利收益率因子
+  EarningsYield_Reverse:
+    path: 
+      - raw_indexFactor
+    description: "盈利收益率数据"
+  Growth:
+    path:
+      - raw_indexFactor
+    description: "盈利收益率数据"
+  
+  # 龙虎榜因子
+  LHBProportion:
+    path: 
+      - raw_LHBProportion
+      - raw_indexAMT
+    description: "龙虎榜数据"
+  
+  # 净杠杆买入因子
+  NLBP_difference:
+    path: raw_NLBPDifference
+    description: "净杠杆买入数据"
+  # 净杠杆买入因子
+  LargeOrder_difference:
+    path: raw_LargeOrder
+    description: "大单数据"
+  Monthly_effect:
+    path: raw_return
+    description: "指数收益率"
+  CPI:
+    path: raw_CPI
+    description: "CPI"
+  PPI:
+    path: raw_PPI
+    description: "PPI"
+  PMI:
+    path: raw_PMI
+    description: "PMI"
+  Stock_HL:
+    path: raw_StockClose
+    description: "Stock_HL"
+  Rsi_difference:
+    path: raw_StockClose
+    description: "Rsi_difference"
+  RaisingTrend_proportion:
+    path: raw_StockClose
+    description: "RaisingTrend_proportion"
+  TargetIndex_MACD:
+    path: raw_return
+    description: "TargetIndex_MACD"
+  TargetIndex_BBANDS:
+    path: raw_return
+    description: "TargetIndex_BBANDS"
+  TargetIndex_MOMENTUM:
+    path: raw_return
+    description: "TargetIndex_MOMENTUM"
+  TargetIndex_PSA:
+    path:
+      - raw_indexClose
+      - raw_indexHigh
+      - raw_indexLow
+    description: "TargetIndex_PSA"
+  TargetIndex_MOMENTUM2:
+    path: raw_return
+    description: "TargetIndex_MOMENTUM2"
+  TargetIndex_REVERSE:
+    path:
+      - raw_return
+      - raw_vix
+    description: "TargetIndex_REVERSE"
+  Future_difference:
+    path: raw_futureDifference
+    description: "Future_difference"
+  RRScore_difference:
+    path: raw_rrscoreDifference
+    description: "RRScore_difference"
+  Bank_Momentum:
+    path:
+      - raw_return
+      - raw_indexFinanceDifferenc
+    description: "Bank_Momentum"
+
+
+
+
