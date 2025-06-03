@@ -10,31 +10,31 @@ global source,config_path
 source=glv.get('source')
 config_path=glv.get('config_path')
 class data_prepare:
-    def df_transformer(self, df, type):
+    def df1_transformer(self, df1, type):
         # 获取唯一的估值日期
-        valuation_date_list = df['valuation_date'].unique().tolist()
+        valuation_date_list = df1['valuation_date'].unique().tolist()
 
         # 将数据透视化：organization成为列，value作为值
         if type == 'indexOther':
-            df_pivot = df.pivot(index='valuation_date', columns='organization', values='value')
+            df1_pivot = df1.pivot(index='valuation_date', columns='organization', values='value')
         elif type == 'macroData':
-            df_pivot = df.pivot(index='valuation_date', columns='name', values='value')
+            df1_pivot = df1.pivot(index='valuation_date', columns='name', values='value')
         elif type == 'intData':
-            df_pivot = df.pivot(index='valuation_date', columns='code', values='value')
+            df1_pivot = df1.pivot(index='valuation_date', columns='code', values='value')
         elif type=='indexData':
-            df_pivot = df.pivot(index='valuation_date', columns='code', values='value')
+            df1_pivot = df1.pivot(index='valuation_date', columns='code', values='value')
         else:
             raise ValueError
 
         # 重置索引，使valuation_date成为列
-        df_pivot = df_pivot.reset_index()
+        df1_pivot = df1_pivot.reset_index()
 
         # 确保valuation_date是第一列
-        cols = df_pivot.columns.tolist()
+        cols = df1_pivot.columns.tolist()
         cols.remove('valuation_date')
-        df_pivot = df_pivot[['valuation_date'] + cols]
+        df1_pivot = df1_pivot[['valuation_date'] + cols]
 
-        return df_pivot
+        return df1_pivot
     def index_name_mapping(self,index_name):
         if index_name=='沪深300':
             return '000300.SH'
@@ -61,7 +61,7 @@ class data_prepare:
             inputpath=str(inputpath)+" WHERE organization = 'Shibor' AND type = 'close'"
         df1 = gt.data_getting(inputpath,config_path)
         if source=='sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         signal_name='Shibor_'+period
@@ -76,7 +76,7 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'ChinaGovernmentBonds' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         signal_name='CGB_'+period
@@ -91,7 +91,7 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'ChinaDevelopmentBankBonds' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         signal_name='CDBB_'+period
@@ -106,7 +106,7 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'ChinaMediumTermNotes' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         signal_name='CMTN_'+period
@@ -121,7 +121,7 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'M1M2' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))   
         if signal_name not in df1.columns:
@@ -136,52 +136,52 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'USDollar' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         return df1
     def raw_DJUS(self):
         inputpath_D=glv.get('raw_DJUS')
-        df_DJUS=gt.readcsv(inputpath_D)
-        df_DJUS.columns=['valuation_date','DJUS','DJUS_close']
-        df_DJUS.fillna(0,inplace=True)
-        df_DJUS=df_DJUS[['valuation_date','DJUS']]
-        return df_DJUS
+        df1_DJUS=gt.readcsv(inputpath_D)
+        df1_DJUS.columns=['valuation_date','DJUS','DJUS_close']
+        df1_DJUS.fillna(0,inplace=True)
+        df1_DJUS=df1_DJUS[['valuation_date','DJUS']]
+        return df1_DJUS
     def raw_NDAQ(self):
         inputpath_N = glv.get('raw_NDAQ')
-        df_NDAQ = gt.readcsv(inputpath_N)
-        df_NDAQ.columns = ['valuation_date', 'NDAQ', 'NDAQ_close']
-        df_NDAQ.fillna(0,inplace=True)
-        df_NDAQ=df_NDAQ[['valuation_date','NDAQ']]
-        return df_NDAQ
+        df1_NDAQ = gt.readcsv(inputpath_N)
+        df1_NDAQ.columns = ['valuation_date', 'NDAQ', 'NDAQ_close']
+        df1_NDAQ.fillna(0,inplace=True)
+        df1_NDAQ=df1_NDAQ[['valuation_date','NDAQ']]
+        return df1_NDAQ
     #风险因子方面：
     def raw_index_earningsyield(self):
         inputpath=glv.get('raw_indexFactor')
-        df=gt.readcsv(inputpath)
-        df['valuation_date']=pd.to_datetime(df['valuation_date'])
-        df['valuation_date']=df['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
-        df=df[['valuation_date','hs300Earningsyield','gz2000Earningsyield','zz1000Earningsyield']]
-        df_final=df.dropna()
-        df_final['difference_earningsyield']=df_final['hs300Earningsyield']-df_final['gz2000Earningsyield']-df_final['zz1000Earningsyield']
-        df_final=df_final[['valuation_date','difference_earningsyield']]
-        return df_final
+        df1=gt.readcsv(inputpath)
+        df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1=df1[['valuation_date','hs300Earningsyield','gz2000Earningsyield','zz1000Earningsyield']]
+        df1_final=df1.dropna()
+        df1_final['difference_earningsyield']=df1_final['hs300Earningsyield']-df1_final['gz2000Earningsyield']-df1_final['zz1000Earningsyield']
+        df1_final=df1_final[['valuation_date','difference_earningsyield']]
+        return df1_final
     def raw_index_growth(self):
         inputpath=glv.get('raw_indexFactor')
-        df=gt.readcsv(inputpath)
-        df['valuation_date']=pd.to_datetime(df['valuation_date'])
-        df['valuation_date']=df['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
-        df=df[['valuation_date','hs300Growth','gz2000Growth','zz1000Growth']]
-        df_final=df.dropna()
-        df_final['difference_Growth']=df_final['hs300Growth']-df_final['gz2000Growth']-df_final['zz1000Growth']
-        df_final=df_final[['valuation_date','difference_Growth']]
-        return df_final
+        df1=gt.readcsv(inputpath)
+        df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1=df1[['valuation_date','hs300Growth','gz2000Growth','zz1000Growth']]
+        df1_final=df1.dropna()
+        df1_final['difference_Growth']=df1_final['hs300Growth']-df1_final['gz2000Growth']-df1_final['zz1000Growth']
+        df1_final=df1_final[['valuation_date','difference_Growth']]
+        return df1_final
     def raw_CPI_withdraw(self):
         inputpath = glv.get('raw_CPI')
         if source == 'sql':
             inputpath = str(inputpath) + " WHERE organization = 'CPI' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         df1.columns=['valuation_date','CPI']
@@ -192,7 +192,7 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'PPI' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         df1.columns=['valuation_date','PPI']
@@ -203,7 +203,7 @@ class data_prepare:
             inputpath = str(inputpath) + " WHERE organization = 'PMI' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
-            df1 = self.df_transformer(df1, 'macroData')
+            df1 = self.df1_transformer(df1, 'macroData')
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         df1.columns=['valuation_date','PMI']
@@ -257,111 +257,171 @@ class data_prepare:
     def raw_index_turnover(self,index_name):
         index_code=self.index_name_mapping(index_name)
         inputpath = glv.get('raw_indexTurnOver')
-        df = gt.readcsv(inputpath)
-        df['valuation_date'] = pd.to_datetime(df['valuation_date'])
-        df['valuation_date'] = df['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
-        df=df[['valuation_date',index_code]]
-        df.columns=['valuation_date',index_name]
-        return df
-    def raw_index_amt(self,index_name):
-        index_code=self.index_name_mapping(index_name)
-        inputpath1 = glv.get('raw_indexAMT')
-        df1 = gt.readcsv(inputpath1)
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = df1[['valuation_date', 'code', 'turn_over']]
+            df1 = df1[df1['code'] == index_code]
+            df1 = df1[['valuation_date', 'turn_over']]
+        else:
+            df1 = df1[['valuation_date', index_code]]
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
-        df1=df1[['valuation_date',index_code]]
         df1.columns=['valuation_date',index_name]
         return df1
-    def index_return_withdraw(self):
-        df_return=gt.timeSeries_index_return_withdraw()
-        df_return=df_return[['valuation_date','沪深300','中证2000']]
-        df_return[['沪深300','中证2000']]=df_return[['沪深300','中证2000']].astype(float)
-        return df_return
-    def index_return_withdraw2(self):
-        df_return=gt.timeSeries_index_return_withdraw()
-        df_return=df_return[['valuation_date','沪深300','国证2000']]
-        df_return[['沪深300','国证2000']]=df_return[['沪深300','国证2000']].astype(float)
-        return df_return
-
+    def raw_index_amt(self,index_name):
+        index_code=self.index_name_mapping(index_name)
+        inputpath = glv.get('raw_indexAMT')
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = df1[['valuation_date', 'code', 'amt']]
+            df1 = df1[df1['code'] == index_code]
+            df1 = df1[['valuation_date', 'amt']]
+        else:
+            df1 = df1[['valuation_date', index_code]]
+        df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.columns=['valuation_date',index_name]
+        return df1
+    def raw_index_close(self,index_name):
+        index_code=self.index_name_mapping(index_name)
+        inputpath = glv.get('raw_indexClose')
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = df1[['valuation_date', 'code', 'close']]
+            df1 = df1[df1['code'] == index_code]
+            df1 = df1[['valuation_date', 'close']]
+        else:
+            df1 = df1[['valuation_date', index_code]]
+        df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.columns=['valuation_date',index_name]
+        return df1
+    def raw_index_high(self,index_name):
+        index_code=self.index_name_mapping(index_name)
+        inputpath = glv.get('raw_indexHigh')
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = df1[['valuation_date', 'code', 'high']]
+            df1 = df1[df1['code'] == index_code]
+            df1 = df1[['valuation_date', 'high']]
+        else:
+            df1 = df1[['valuation_date', index_code]]
+        df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.columns=['valuation_date',index_name]
+        return df1
+    def raw_index_low(self,index_name):
+        index_code=self.index_name_mapping(index_name)
+        inputpath = glv.get('raw_indexLow')
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = df1[['valuation_date', 'code', 'low']]
+            df1 = df1[df1['code'] == index_code]
+            df1 = df1[['valuation_date', 'low']]
+        else:
+            df1 = df1[['valuation_date', index_code]]
+        df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.columns=['valuation_date',index_name]
+        return df1
+    def raw_index_open(self,index_name):
+        index_code=self.index_name_mapping(index_name)
+        inputpath = glv.get('raw_indexOpen')
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = df1[['valuation_date', 'code', 'open']]
+            df1 = df1[df1['code'] == index_code]
+            df1 = df1[['valuation_date', 'open']]
+        else:
+            df1 = df1[['valuation_date', index_code]]
+        df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.columns=['valuation_date',index_name]
+        return df1
+    def index_return_withdraw(self,index_list):
+        df1_return=gt.timeSeries_index_return_withdraw()
+        df1_return=df1_return[['valuation_date']+index_list]
+        df1_return[index_list]=df1_return[index_list].astype(float)
+        return df1_return
     def BankMomentum_withdraw(self):
         inputpath = glv.get('raw_indexFinanceDifference')
-        df = gt.readcsv(inputpath)
-        df.set_index('valuation_date', inplace=True)
-        df = (1 + df).cumprod()
-        df['difference'] = df['finance_return'] - df['gz2000_return']
-        df.reset_index(inplace=True)
-        df = df[['valuation_date', 'difference']]
-        return df
+        df1 = gt.readcsv(inputpath)
+        df1.set_index('valuation_date', inplace=True)
+        df1 = (1 + df1).cumprod()
+        df1['difference'] = df1['finance_return'] - df1['gz2000_return']
+        df1.reset_index(inplace=True)
+        df1 = df1[['valuation_date', 'difference']]
+        return df1
     #target_index
     def target_index(self):
-        df_return=self.index_return_withdraw()
-        df_return=df_return[['valuation_date','沪深300','中证2000']]
-        df_return.set_index('valuation_date',inplace=True)
-        df_return=df_return.astype(float)
-        df_return=(1+df_return).cumprod()
-        df_return['target_index']=df_return['沪深300']/df_return['中证2000']
-        df_return.reset_index(inplace=True)
-        df_return=df_return[['valuation_date','target_index','沪深300','中证2000']]
-        return df_return
+        df1_return=self.index_return_withdraw()
+        df1_return=df1_return[['valuation_date','沪深300','中证2000']]
+        df1_return.set_index('valuation_date',inplace=True)
+        df1_return=df1_return.astype(float)
+        df1_return=(1+df1_return).cumprod()
+        df1_return['target_index']=df1_return['沪深300']/df1_return['中证2000']
+        df1_return.reset_index(inplace=True)
+        df1_return=df1_return[['valuation_date','target_index','沪深300','中证2000']]
+        return df1_return
     def target_index_candle(self):
         inputpath_close=glv.get('raw_indexClose')
         inputpath_high=glv.get('raw_indexHigh')
         inputpath_low=glv.get('raw_indexLow')
-        df_close=gt.readcsv(inputpath_close)
-        df_high = gt.readcsv(inputpath_high)
-        df_low = gt.readcsv(inputpath_low)
-        df_close=df_close[['valuation_date','000300.SH','399303.SZ']]
-        df_high = df_high[['valuation_date','000300.SH','399303.SZ']]
-        df_low = df_low[['valuation_date','000300.SH','399303.SZ']]
-        df_close.columns=['valuation_date', '000300.SH_close', '399303.SZ_close']
-        df_high.columns=['valuation_date','000300.SH_high','399303.SZ_high']
-        df_low.columns = ['valuation_date', '000300.SH_low', '399303.SZ_low']
-        df_hl=df_high.merge(df_low,on='valuation_date',how='left')
-        df_final=df_close.merge(df_hl,on='valuation_date',how='left')
-        df_final['close']=df_final['000300.SH_close']-df_final['399303.SZ_close']
-        df_final['high']=df_final['000300.SH_low']-df_final['399303.SZ_high']
-        df_final['low']=df_final['000300.SH_high']-df_final['399303.SZ_low']
-        df_final=df_final[['valuation_date','high','close','low']]
-        return df_final
+        df1_close=gt.readcsv(inputpath_close)
+        df1_high = gt.readcsv(inputpath_high)
+        df1_low = gt.readcsv(inputpath_low)
+        df1_close=df1_close[['valuation_date','000300.SH','399303.SZ']]
+        df1_high = df1_high[['valuation_date','000300.SH','399303.SZ']]
+        df1_low = df1_low[['valuation_date','000300.SH','399303.SZ']]
+        df1_close.columns=['valuation_date', '000300.SH_close', '399303.SZ_close']
+        df1_high.columns=['valuation_date','000300.SH_high','399303.SZ_high']
+        df1_low.columns = ['valuation_date', '000300.SH_low', '399303.SZ_low']
+        df1_hl=df1_high.merge(df1_low,on='valuation_date',how='left')
+        df1_final=df1_close.merge(df1_hl,on='valuation_date',how='left')
+        df1_final['close']=df1_final['000300.SH_close']-df1_final['399303.SZ_close']
+        df1_final['high']=df1_final['000300.SH_low']-df1_final['399303.SZ_high']
+        df1_final['low']=df1_final['000300.SH_high']-df1_final['399303.SZ_low']
+        df1_final=df1_final[['valuation_date','high','close','low']]
+        return df1_final
     def target_index_candle2(self):
         inputpath_close=glv.get('raw_indexClose')
         inputpath_high=glv.get('raw_indexHigh')
         inputpath_low=glv.get('raw_indexLow')
         inputpath_open=glv.get('raw_indexOpen')
-        df_close=gt.readcsv(inputpath_close)
-        df_high = gt.readcsv(inputpath_high)
-        df_low = gt.readcsv(inputpath_low)
-        df_open=gt.readcsv(inputpath_open)
-        df_open=df_open[['valuation_date','000300.SH','932000.CSI']]
-        df_close=df_close[['valuation_date','000300.SH','932000.CSI']]
-        df_high = df_high[['valuation_date','000300.SH','932000.CSI']]
-        df_low = df_low[['valuation_date','000300.SH','932000.CSI']]
-        df_open.columns = ['valuation_date', '000300.SH_open', '932000.CSI_open']
-        df_close.columns=['valuation_date', '000300.SH_close', '932000.CSI_close']
-        df_high.columns=['valuation_date','000300.SH_high','932000.CSI_high']
-        df_low.columns = ['valuation_date', '000300.SH_low', '932000.CSI_low']
-        df_hl=df_high.merge(df_low,on='valuation_date',how='left')
-        df_final=df_close.merge(df_hl,on='valuation_date',how='left')
-        df_final=df_final.merge(df_open,on='valuation_date',how='left')
-        df_final['open']=df_final['000300.SH_open']-df_final['932000.CSI_open']
-        df_final['close']=df_final['000300.SH_close']-df_final['932000.CSI_close']
-        df_final['high']=df_final['000300.SH_high']-df_final['932000.CSI_low']
-        df_final['low']=df_final['000300.SH_low']-df_final['932000.CSI_high']
-        df_final=df_final[['valuation_date','open','high','close','low']]
-        return df_final
+        df1_close=gt.readcsv(inputpath_close)
+        df1_high = gt.readcsv(inputpath_high)
+        df1_low = gt.readcsv(inputpath_low)
+        df1_open=gt.readcsv(inputpath_open)
+        df1_open=df1_open[['valuation_date','000300.SH','932000.CSI']]
+        df1_close=df1_close[['valuation_date','000300.SH','932000.CSI']]
+        df1_high = df1_high[['valuation_date','000300.SH','932000.CSI']]
+        df1_low = df1_low[['valuation_date','000300.SH','932000.CSI']]
+        df1_open.columns = ['valuation_date', '000300.SH_open', '932000.CSI_open']
+        df1_close.columns=['valuation_date', '000300.SH_close', '932000.CSI_close']
+        df1_high.columns=['valuation_date','000300.SH_high','932000.CSI_high']
+        df1_low.columns = ['valuation_date', '000300.SH_low', '932000.CSI_low']
+        df1_hl=df1_high.merge(df1_low,on='valuation_date',how='left')
+        df1_final=df1_close.merge(df1_hl,on='valuation_date',how='left')
+        df1_final=df1_final.merge(df1_open,on='valuation_date',how='left')
+        df1_final['open']=df1_final['000300.SH_open']-df1_final['932000.CSI_open']
+        df1_final['close']=df1_final['000300.SH_close']-df1_final['932000.CSI_close']
+        df1_final['high']=df1_final['000300.SH_high']-df1_final['932000.CSI_low']
+        df1_final['low']=df1_final['000300.SH_low']-df1_final['932000.CSI_high']
+        df1_final=df1_final[['valuation_date','open','high','close','low']]
+        return df1_final
     def future_difference_withdraw(self):
         inputpath=glv.get('raw_futureDifference')
-        df=gt.readcsv(inputpath)
-        df=df[['valuation_date','difference_future']]
-        return df
+        df1=gt.readcsv(inputpath)
+        df1=df1[['valuation_date','difference_future']]
+        return df1
     def raw_vix_withdraw(self):
         inputpath=glv.get('raw_vix')
-        df=gt.readcsv(inputpath)
-        df=df[['valuation_date','hs300','zz1000']]
-        df.fillna(method='ffill',inplace=True)
-        return df
+        df1=gt.readcsv(inputpath)
+        df1=df1[['valuation_date','hs300','zz1000']]
+        df1.fillna(method='ffill',inplace=True)
+        return df1
 if __name__ == "__main__":
     dp = data_prepare()
-    df=dp.raw_index_volume('沪深300')
-    print(df)
+    df1=dp.raw_index_volume('沪深300')
+    print(df1)
 
