@@ -1,5 +1,10 @@
 import pandas as pd
-import global_tools_func.global_tools as gt
+import os
+import sys
+path = os.getenv('GLOBAL_TOOLSFUNC')
+sys.path.append(path)
+import global_tools as gt
+import global_setting.global_dic as glv
 from numpy import *
 from pykalman import KalmanFilter
 import numpy as np
@@ -49,9 +54,9 @@ class signal_construct:
         MA_short=mean(df[signal_name].tolist()[-rolling_window_short:])
         MA_long=mean(df[signal_name].tolist()[-rolling_window_long :])
         difference = MA_short-MA_long
-        if mode_type=='mode_6':
+        if mode_type=='mode_1':
              final_signal = self.direction_decision(difference)
-        elif mode_type=='mode_7':
+        elif mode_type=='mode_2':
             final_signal = self.direction_decision2(difference)
         else:
              final_signal=None

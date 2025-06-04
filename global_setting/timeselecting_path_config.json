@@ -193,6 +193,11 @@
             "folder_name": "vix_data\\vix_timeWeight.csv",
             "folder_type": "input_folder",
             "sql_sheet": "data_vix"
+        },
+        {
+            "data_type": "signal_data",
+            "folder_name": "signal_data",
+            "folder_type": "output_folder"
         }
     ]
 } 

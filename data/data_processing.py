@@ -1,10 +1,10 @@
-import os
-import pandas as pd
 from matplotlib import pyplot as plt
-
-#from matplotlib import pyplot as plt
-
-import global_tools_func.global_tools as gt
+import os
+import sys
+import pandas as pd
+path = os.getenv('GLOBAL_TOOLSFUNC')
+sys.path.append(path)
+import global_tools as gt
 import global_setting.global_dic as glv
 from data.data_prepare import data_prepare
 import pandas_ta as ta
