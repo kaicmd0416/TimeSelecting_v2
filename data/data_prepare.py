@@ -23,6 +23,8 @@ class data_prepare:
             df1_pivot = df1.pivot(index='valuation_date', columns='code', values='value')
         elif type=='indexData':
             df1_pivot = df1.pivot(index='valuation_date', columns='code', values='value')
+        elif type=='stockData':
+            df1_pivot = df1.pivot(index='valuation_date', columns='code', values='value')
         else:
             raise ValueError
 
@@ -257,7 +259,7 @@ class data_prepare:
     #股票方面:
     def raw_stockClose_withdraw(self):
         inputpath = glv.get('raw_StockClose')
-        df1 = gt.readcsv(inputpath)
+        df1=gt.readcsv(inputpath)
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         return df1
@@ -465,18 +467,25 @@ class data_prepare:
                 inputpath) + " WHERE type = 'rrIndexScore'"
         df1 = gt.data_getting(inputpath, config_path)
         if source == 'sql':
+            print(df1)
             df1 = self.df1_transformer(df1, 'indexOther')
         df1['rrscoreDifference']=df1['hs300']-df1['gz2000']
         df1=df1[['valuation_date','rrscoreDifference']]
         return df1
     def raw_vix_withdraw(self):
         inputpath=glv.get('raw_vix')
-        df1=gt.readcsv(inputpath)
+        if source == 'sql':
+            inputpath = str(
+                inputpath) + " WHERE vix_type = 'TimeWeighted'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1.rename(columns={'ch_vix':'value'},inplace=True)
+            df1 = self.df1_transformer(df1, 'indexOther')
         df1=df1[['valuation_date','hs300','zz1000']]
         df1.fillna(method='ffill',inplace=True)
         return df1
 if __name__ == "__main__":
     dp = data_prepare()
-    df1=dp.BankMomentum_withdraw()
+    df1=dp.raw_vix_withdraw()
     print(df1)
 

@@ -182,6 +182,17 @@
             "folder_name": "index_data\\indexrrScoreDifference.csv",
             "folder_type": "input_folder",
             "sql_sheet": "data_indexother"
+        },
+        {
+            "data_type": "raw_StockClose",
+            "folder_name": "stock_data\\stockClose.csv",
+            "folder_type": "input_folder"
+        },
+        {
+            "data_type": "raw_vix",
+            "folder_name": "vix_data\\vix_timeWeight.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_vix"
         }
     ]
 } 
