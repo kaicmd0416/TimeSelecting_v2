@@ -100,6 +100,12 @@
             "sql_sheet": "data_index"
         },
         {
+            "data_type": "raw_indexReturn",
+            "folder_name": "index_data\\IndexReturn.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_index"
+        },
+        {
             "data_type": "raw_indexVolume",
             "folder_name": "index_data\\IndexVolume.csv",
             "folder_type": "input_folder",
@@ -140,6 +146,42 @@
             "folder_name": "index_data\\IndexOpen.csv",
             "folder_type": "input_folder",
             "sql_sheet": "data_index"
+        },
+        {
+            "data_type": "raw_indexFactor",
+            "folder_name": "index_data\\ygData.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_indexother"
+        },
+        {
+            "data_type": "raw_LHBProportion",
+            "folder_name": "mkt_data\\LHB_AMT_proportion.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_lhb"
+        },
+        {
+            "data_type": "raw_NLBPDifference",
+            "folder_name": "mkt_data\\NetLeverageBuying.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_indexother"
+        },
+        {
+            "data_type": "raw_LargeOrder",
+            "folder_name": "mkt_data\\LargeOrderInflow.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_indexother"
+        },
+        {
+            "data_type": "raw_futureDifference",
+            "folder_name": "index_data\\indexFutureDifference.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_indexother"
+        },
+        {
+            "data_type": "raw_rrscoreDifference",
+            "folder_name": "index_data\\indexrrScoreDifference.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_indexother"
         }
     ]
 } 

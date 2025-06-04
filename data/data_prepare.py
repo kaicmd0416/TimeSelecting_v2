@@ -52,6 +52,8 @@ class data_prepare:
             return '000016.SH'
         elif index_name=='国证2000':
             return '399303.SZ'
+        elif index_name=='金融等权':
+            return '000076.SH'
         else:
             raise ValueError('index_name must be 沪深300 or 中证2000 or 中证500 or 中证1000 or 中证800 or 中证A500 or 上证50 or 国证2000')
     #shibor
@@ -157,9 +159,14 @@ class data_prepare:
     #风险因子方面：
     def raw_index_earningsyield(self):
         inputpath=glv.get('raw_indexFactor')
-        df1=gt.readcsv(inputpath)
+        if source == 'sql':
+            inputpath = str(inputpath) + " WHERE type = 'earningsyield'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = self.df1_transformer(df1, 'indexOther')
         df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
         df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.rename(columns={'gz2000':'gz2000Earningsyield','hs300':'hs300Earningsyield','zz1000':'zz1000Earningsyield'},inplace=True)
         df1=df1[['valuation_date','hs300Earningsyield','gz2000Earningsyield','zz1000Earningsyield']]
         df1_final=df1.dropna()
         df1_final['difference_earningsyield']=df1_final['hs300Earningsyield']-df1_final['gz2000Earningsyield']-df1_final['zz1000Earningsyield']
@@ -167,9 +174,16 @@ class data_prepare:
         return df1_final
     def raw_index_growth(self):
         inputpath=glv.get('raw_indexFactor')
-        df1=gt.readcsv(inputpath)
+        if source == 'sql':
+            inputpath = str(inputpath) + " WHERE type = 'growth'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = self.df1_transformer(df1, 'indexOther')
         df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
         df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.rename(
+            columns={'gz2000': 'gz2000Growth', 'hs300': 'hs300Growth', 'zz1000': 'zz1000Growth'},
+            inplace=True)
         df1=df1[['valuation_date','hs300Growth','gz2000Growth','zz1000Growth']]
         df1_final=df1.dropna()
         df1_final['difference_Growth']=df1_final['hs300Growth']-df1_final['gz2000Growth']-df1_final['zz1000Growth']
@@ -211,14 +225,18 @@ class data_prepare:
     #资金因子方面:
     def raw_LHBProportion_withdraw(self):
         inputpath=glv.get('raw_LHBProportion')
-        df1=gt.readcsv(inputpath)
+        df1 = gt.data_getting(inputpath, config_path)
         df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
         df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         df1=df1[['valuation_date','LHBProportion']]
         return df1
     def raw_NetLeverageBuying_withdraw(self):
         inputpath=glv.get('raw_NLBPDifference')
-        df1=gt.readcsv(inputpath)
+        if source == 'sql':
+            inputpath = str(inputpath) + " WHERE type = 'NetLeverageBuying' And organization='NetLeverageAMTProportion_difference'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = self.df1_transformer(df1, 'indexOther')
         df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
         df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         df1=df1[['valuation_date','NetLeverageAMTProportion_difference']]
@@ -227,7 +245,12 @@ class data_prepare:
         return df1
     def raw_LargeOrder_withdraw(self):
         inputpath=glv.get('raw_LargeOrder')
-        df1=gt.readcsv(inputpath)
+        if source == 'sql':
+            inputpath = str(
+                inputpath) + " WHERE type = 'LargeOrderInflow'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = self.df1_transformer(df1, 'indexOther')
         df1['valuation_date']=pd.to_datetime(df1['valuation_date'])
         df1['valuation_date']=df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         return df1
@@ -240,6 +263,20 @@ class data_prepare:
         return df1
     #技术指标方面:
     #指数方面
+    def raw_index_return(self,index_name):
+        index_code=self.index_name_mapping(index_name)
+        inputpath = glv.get('raw_indexReturn')
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1=df1[['valuation_date','code','pct_chg']]
+            df1=df1[df1['code']==index_code]
+            df1=df1[['valuation_date','pct_chg']]
+        else:
+            df1=df1[['valuation_date',index_code]]
+        df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
+        df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        df1.columns=['valuation_date',index_name]
+        return df1
     def raw_index_volume(self,index_name):
         index_code=self.index_name_mapping(index_name)
         inputpath = glv.get('raw_indexVolume')
@@ -344,17 +381,18 @@ class data_prepare:
         df1_return[index_list]=df1_return[index_list].astype(float)
         return df1_return
     def BankMomentum_withdraw(self):
-        inputpath = glv.get('raw_indexFinanceDifference')
-        df1 = gt.readcsv(inputpath)
+        df_finance=self.raw_index_return('金融等权')
+        df_gz2000=self.raw_index_return('国证2000')
+        df1=df_finance.merge(df_gz2000,on='valuation_date',how='left')
         df1.set_index('valuation_date', inplace=True)
         df1 = (1 + df1).cumprod()
-        df1['difference'] = df1['finance_return'] - df1['gz2000_return']
+        df1['difference'] = df1['金融等权'] - df1['国证2000']
         df1.reset_index(inplace=True)
         df1 = df1[['valuation_date', 'difference']]
         return df1
     #target_index
     def target_index(self):
-        df1_return=self.index_return_withdraw()
+        df1_return=self.index_return_withdraw(['沪深300','中证2000'])
         df1_return=df1_return[['valuation_date','沪深300','中证2000']]
         df1_return.set_index('valuation_date',inplace=True)
         df1_return=df1_return.astype(float)
@@ -364,15 +402,15 @@ class data_prepare:
         df1_return=df1_return[['valuation_date','target_index','沪深300','中证2000']]
         return df1_return
     def target_index_candle(self):
-        inputpath_close=glv.get('raw_indexClose')
-        inputpath_high=glv.get('raw_indexHigh')
-        inputpath_low=glv.get('raw_indexLow')
-        df1_close=gt.readcsv(inputpath_close)
-        df1_high = gt.readcsv(inputpath_high)
-        df1_low = gt.readcsv(inputpath_low)
-        df1_close=df1_close[['valuation_date','000300.SH','399303.SZ']]
-        df1_high = df1_high[['valuation_date','000300.SH','399303.SZ']]
-        df1_low = df1_low[['valuation_date','000300.SH','399303.SZ']]
+        df_close_hs300=self.raw_index_close('沪深300')
+        df_close_zz2000=self.raw_index_close('国证2000')
+        df_high_hs300=self.raw_index_high('沪深300')
+        df_high_zz2000=self.raw_index_high('国证2000')
+        df_low_hs300=self.raw_index_low('沪深300')
+        df_low_zz2000=self.raw_index_low('国证2000')
+        df1_close=df_close_hs300.merge(df_close_zz2000,on='valuation_date',how='left')
+        df1_high=df_high_hs300.merge(df_high_zz2000,on='valuation_date',how='left')
+        df1_low=df_low_hs300.merge(df_low_zz2000,on='valuation_date',how='left')
         df1_close.columns=['valuation_date', '000300.SH_close', '399303.SZ_close']
         df1_high.columns=['valuation_date','000300.SH_high','399303.SZ_high']
         df1_low.columns = ['valuation_date', '000300.SH_low', '399303.SZ_low']
@@ -384,18 +422,18 @@ class data_prepare:
         df1_final=df1_final[['valuation_date','high','close','low']]
         return df1_final
     def target_index_candle2(self):
-        inputpath_close=glv.get('raw_indexClose')
-        inputpath_high=glv.get('raw_indexHigh')
-        inputpath_low=glv.get('raw_indexLow')
-        inputpath_open=glv.get('raw_indexOpen')
-        df1_close=gt.readcsv(inputpath_close)
-        df1_high = gt.readcsv(inputpath_high)
-        df1_low = gt.readcsv(inputpath_low)
-        df1_open=gt.readcsv(inputpath_open)
-        df1_open=df1_open[['valuation_date','000300.SH','932000.CSI']]
-        df1_close=df1_close[['valuation_date','000300.SH','932000.CSI']]
-        df1_high = df1_high[['valuation_date','000300.SH','932000.CSI']]
-        df1_low = df1_low[['valuation_date','000300.SH','932000.CSI']]
+        df_close_hs300 = self.raw_index_close('沪深300')
+        df_close_zz2000 = self.raw_index_close('中证2000')
+        df_high_hs300 = self.raw_index_high('沪深300')
+        df_high_zz2000 = self.raw_index_high('中证2000')
+        df_low_hs300 = self.raw_index_low('沪深300')
+        df_low_zz2000 = self.raw_index_low('中证2000')
+        df_open_hs300=self.raw_index_open('沪深300')
+        df_open_zz2000=self.raw_index_open('中证2000')
+        df1_open=df_open_hs300.merge(df_open_zz2000,on='valuation_date',how='left')
+        df1_close = df_close_hs300.merge(df_close_zz2000, on='valuation_date', how='left')
+        df1_high = df_high_hs300.merge(df_high_zz2000, on='valuation_date', how='left')
+        df1_low = df_low_hs300.merge(df_low_zz2000, on='valuation_date', how='left')
         df1_open.columns = ['valuation_date', '000300.SH_open', '932000.CSI_open']
         df1_close.columns=['valuation_date', '000300.SH_close', '932000.CSI_close']
         df1_high.columns=['valuation_date','000300.SH_high','932000.CSI_high']
@@ -411,8 +449,25 @@ class data_prepare:
         return df1_final
     def future_difference_withdraw(self):
         inputpath=glv.get('raw_futureDifference')
-        df1=gt.readcsv(inputpath)
+        if source == 'sql':
+            inputpath = str(
+                inputpath) + " WHERE type = 'FutureDifference' AND organization='indexFuture_difference'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = self.df1_transformer(df1, 'indexOther')
+        df1.rename(columns={'indexFuture_difference':'difference_future'},inplace=True)
         df1=df1[['valuation_date','difference_future']]
+        return df1
+    def raw_rrscoreDifference(self):
+        inputpath=glv.get('raw_rrscoreDifference')
+        if source == 'sql':
+            inputpath = str(
+                inputpath) + " WHERE type = 'rrIndexScore'"
+        df1 = gt.data_getting(inputpath, config_path)
+        if source == 'sql':
+            df1 = self.df1_transformer(df1, 'indexOther')
+        df1['rrscoreDifference']=df1['hs300']-df1['gz2000']
+        df1=df1[['valuation_date','rrscoreDifference']]
         return df1
     def raw_vix_withdraw(self):
         inputpath=glv.get('raw_vix')
@@ -422,6 +477,6 @@ class data_prepare:
         return df1
 if __name__ == "__main__":
     dp = data_prepare()
-    df1=dp.raw_index_volume('沪深300')
+    df1=dp.BankMomentum_withdraw()
     print(df1)
 

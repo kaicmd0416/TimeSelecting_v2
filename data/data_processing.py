@@ -500,12 +500,7 @@ class data_processing:
         df_vix=self.dp.raw_vix_withdraw()
         df=df.merge(df_vix,on='valuation_date',how='left')
         return df
-    def raw_rrscoreDifference(self):
-        inputpath=glv.get('raw_rrscoreDifference')
-        df=gt.readcsv(inputpath)
-        df['rrscoreDifference']=df['hs300_score']-df['gz2000_score']
-        df=df[['valuation_date','rrscoreDifference']]
-        return df
+
 
 
 if __name__ == "__main__":
