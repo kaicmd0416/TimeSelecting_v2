@@ -198,6 +198,11 @@
             "data_type": "signal_data",
             "folder_name": "signal_data",
             "folder_type": "output_folder"
+        },
+        {
+            "data_type": "backtest_output",
+            "folder_name": "signal_backtest",
+            "folder_type": "output_folder"
         }
     ]
 } 

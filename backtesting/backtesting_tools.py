@@ -1,14 +1,18 @@
 from PDF.PDFCreator import PDFCreator
 import matplotlib as mpl
 from matplotlib import pyplot as plt
-import pandas as pd
 import numpy as np
-import os
 import warnings
 mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']
 mpl.rcParams['axes.unicode_minus'] = False
 warnings.filterwarnings("ignore")
-import global_tools_func.global_tools as gt
+import os
+import sys
+import pandas as pd
+path = os.getenv('GLOBAL_TOOLSFUNC')
+sys.path.append(path)
+import global_tools as gt
+import global_setting.global_dic as glv
 class Back_testing_processing:
     def __init__(self,df_index_return):
         self.df_index_return=df_index_return
@@ -72,7 +76,7 @@ class Back_testing_processing:
               df_index.rename(columns={index_name: 'index'}, inplace=True)
         else:
               df_index=self.df_index_return
-              df_index['index']=self.df_index_return=0.5*self.df_index_return['上证50']+0.5*self.df_index_return['中证2000']
+              df_index['index']=self.df_index_return=0.5*self.df_index_return['沪深300']+0.5*self.df_index_return['中证2000']
               df_index=df_index[['valuation_date','index']]
         df_index['valuation_date'] = pd.to_datetime(df_index['valuation_date'])
         df_portfolio['valuation_date'] = pd.to_datetime(df_portfolio['valuation_date'])

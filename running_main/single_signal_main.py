@@ -47,8 +47,8 @@ class single_signal_main:
             df=self.dp.raw_shibor(period='2W')
             sc_mode='mode_1'
         elif self.signal_name=='Shibor_9M': #正
-            df = self.dp.raw_shibor(period='9M')
-            sc_mode = 'mode_3'
+            df = self.dp.raw_shibor(period='9W')
+            sc_mode = 'mode_1'
         elif self.signal_name=='Bond_3Y':
             df=self.dp.raw_bond(period='3Y')
             sc_mode = 'mode_1'
@@ -181,7 +181,8 @@ class single_signal_main:
             start_date=df_signal.iloc[index]['valuation_date']
         return start_date
 
-    def signal_main(self,start_date,end_date,x_list):
+    def signal_main(self,start_date,end_date):
+        x_list=[0.55,0.6,0.65,0.7,0.75,0.8]
         signal_name=self.signal_name
         outputpath = glv.get('signal_data')
         outputpath=os.path.join(outputpath,str(self.mode))
@@ -212,14 +213,14 @@ class single_signal_main:
                     signal_list.append(signal)
             final_signal=mean(signal_list)
             for x in x_list:
-                final_signal=self.final_signal_construction(final_signal,x)
-                final_signal_list.append(final_signal)
+                final_signal2=self.final_signal_construction(final_signal,x)
+                final_signal_list.append(final_signal2)
             df_final['x']=x_list
-            df_final['final_signal_list']=final_signal_list
+            df_final['final_signal']=final_signal_list
             df_final['valuation_date']=date
-            df_final=df_final[['valuation_date','final_signal_list','x']]
+            df_final=df_final[['valuation_date','final_signal','x']]
             if len(df_final)>0:
                  df_final.to_csv(outputpath_daily,index=False)
 if __name__ == "__main__":
-    ssm=single_signal_main(signal_name='Shibor_2W',mode='test')
-    ssm.signal_main(start_date='2015-01-01',end_date='2025-06-04',x_list=[0.55,0.6,0.65,0.7,0.75,0.8])
+    ssm=single_signal_main(signal_name='Bond_10Y',mode='test')
+    ssm.signal_main(start_date='2015-01-01',end_date='2025-06-04')
