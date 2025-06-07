@@ -60,19 +60,19 @@ class single_signal_main:
             sc_mode = 'mode_2'
         elif self.signal_name=='CreditSpread_3M':
             df=self.dpro.credit_spread_3M()
-            sc_mode = 'mode_6'
+            sc_mode = 'mode_1'
         elif self.signal_name == 'CreditSpread_9M':
             df = self.dpro.credit_spread_9M()
-            sc_mode = 'mode_6'
+            sc_mode = 'mode_1'
         elif self.signal_name == 'CreditSpread_5Y':
             df = self.dpro.credit_spread_5Y()
-            sc_mode = 'mode_6'
+            sc_mode = 'mode_1'
         elif self.signal_name=='TermSpread_9Y':
             df=self.dpro.term_spread_9Y()
             sc_mode='mode_2'
         elif self.signal_name=='M1M2':
             df=self.dpro.M1M2()
-            sc_mode = 'mode_5'  #专属mode
+            sc_mode = 'mode_4'  #专属mode
         elif self.signal_name=='USStock':
             df=self.dpro.US_stock()
             sc_mode = 'mode_1'
@@ -197,11 +197,14 @@ class single_signal_main:
             outputpath_daily=os.path.join(outputpath,str(signal_name)+'_'+date2+'.csv')
             signal_list = []
             daily_df = self.fp.slice_processing(self.df_signal, date)
-            if self.sc_mode=='mode_1' or self.sc_mode=='mode_2':
+            if self.sc_mode=='mode_1' or self.sc_mode=='mode_2' or self.sc_mode=='mode_3' or self.sc_mode=='mode_4':
                 # Define short and long windows
-                short_windows = [1, 5, 10, 15, 20]
-                long_windows = [5, 10, 15, 20, 30, 40, 60, 90, 120, 180, 250]
-                
+                if self.sc_mode!='mode_4':
+                    short_windows = [1, 5, 10, 15, 20]
+                    long_windows = [5, 10, 15, 20, 30, 40, 60, 90, 120, 180, 250]
+                else:
+                    short_windows = [1,20,40]
+                    long_windows = [20,40, 60, 80, 100,120, 180, 250]
                 # Create combinations where short window is less than long window
                 rolling_list = []
                 for short_window in short_windows:
@@ -222,5 +225,5 @@ class single_signal_main:
             if len(df_final)>0:
                  df_final.to_csv(outputpath_daily,index=False)
 if __name__ == "__main__":
-    ssm=single_signal_main(signal_name='Bond_10Y',mode='test')
+    ssm=single_signal_main(signal_name='M1M2',mode='test')
     ssm.signal_main(start_date='2015-01-01',end_date='2025-06-04')

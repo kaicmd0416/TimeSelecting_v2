@@ -205,6 +205,7 @@ def singleSingal_backtesting(signal_name,start_date,end_date,mode='test'):
     df_technical=technical_signal_calculator(df_final)
     df_technical.to_excel(outputpath_tech,index=False)
 if __name__ == "__main__":
-    singleSingal_backtesting('Shibor_9M','2016-01-01','2025-06-04')
+    for signal_name in ['M1M2']:
+          singleSingal_backtesting(signal_name,'2016-01-01','2025-06-04')
 
 

@@ -56,7 +56,7 @@ class signal_construct:
         difference = MA_short-MA_long
         if mode_type=='mode_1':
              final_signal = self.direction_decision(difference)
-        elif mode_type=='mode_2':
+        elif mode_type=='mode_2' or mode_type=='mode_4':
             final_signal = self.direction_decision2(difference)
         else:
              final_signal=None
