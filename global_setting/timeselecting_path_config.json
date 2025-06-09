@@ -195,8 +195,18 @@
             "sql_sheet": "data_vix"
         },
         {
-            "data_type": "signal_data",
-            "folder_name": "signal_data",
+            "data_type": "L3_signalData",
+            "folder_name": "L3_signalData",
+            "folder_type": "output_folder"
+        },
+        {
+            "data_type": "L2_signalData",
+            "folder_name": "L2_signalData",
+            "folder_type": "output_folder"
+        },
+        {
+            "data_type": "L1_signalData",
+            "folder_name": "L1_signalData",
             "folder_type": "output_folder"
         },
         {

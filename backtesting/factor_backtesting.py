@@ -7,8 +7,8 @@ sys.path.append(path)
 import global_tools as gt
 import global_setting.global_dic as glv
 from backtesting.backtesting_tools import Back_testing_processing
-class factor_backtesting_main:
-    def __init__(self,signal_name,start_date,end_date,cost,mode,x):
+class factor_backtesting:
+    def __init__(self,signal_name,start_date,end_date,cost,mode,signal_type,x=None):
         self.df_index_return=self.index_return_withdraw()
         self.signal_name=signal_name
         self.start_date=start_date
@@ -16,9 +16,12 @@ class factor_backtesting_main:
         self.cost=cost
         self.mode=mode
         self.x=x
+        self.signal_type=signal_type
+        self.inputpath_base = glv.get(str(signal_type)+'_signalData')
         self.start_date=self.start_date_processing()
+
     def start_date_processing(self):
-        inputpath = glv.get('signal_data')
+        inputpath = self.inputpath_base
         inputpath  = os.path.join(inputpath, self.mode)
         inputpath=os.path.join(inputpath,self.signal_name)
         input_list=os.listdir(inputpath)
@@ -40,31 +43,20 @@ class factor_backtesting_main:
         return df_return
 
     def raw_signal_withdraw(self):
-        inputpath = glv.get(self.signal_name+'_signal')
-        df = pd.read_excel(inputpath)
-        df.rename(columns={self.signal_name:'final_signal'},inplace=True)
-        df.dropna(inplace=True)
-        start_date=df['valuation_date'].tolist()[0]
-        end_date=df['valuation_date'].tolist()[-1]
-        working_list=gt.working_days_list(start_date,end_date)
-        df=df[df['valuation_date'].isin(working_list)]
-        return df
-    def raw_signal_withdraw2(self,is_replace=False):
-        df=pd.DataFrame()
-        inputpath = glv.get('signal_data')
-        inputpath=os.path.join(inputpath,self.mode)
-        inputpath=os.path.join(inputpath,self.signal_name)
-        working_days_list=gt.working_days_list(self.start_date,self.end_date)
+        df = pd.DataFrame()
+        inputpath = self.inputpath_base
+        inputpath = os.path.join(inputpath, self.mode)
+        inputpath = os.path.join(inputpath, self.signal_name)
+        working_days_list = gt.working_days_list(self.start_date, self.end_date)
         for target_date in working_days_list:
-            target_date2=gt.intdate_transfer(target_date)
-            inputpath_daily=gt.file_withdraw(inputpath,target_date2)
-            df_daily=gt.readcsv(inputpath_daily)
-            df_daily=df_daily[df_daily['x']==self.x]
-            df=pd.concat([df,df_daily])
-        df=df[['valuation_date','final_signal']]
-        if is_replace==True:
-            df.replace(0.5,None,inplace=True)
-            df.fillna(method='ffill',inplace=True)
+            target_date2 = gt.intdate_transfer(target_date)
+            inputpath_daily = gt.file_withdraw(inputpath, target_date2)
+            df_daily = gt.readcsv(inputpath_daily)
+            if len(df_daily)!=0:
+                if self.signal_type == 'L3':
+                    df_daily = df_daily[df_daily['x'] == self.x]
+                df = pd.concat([df, df_daily])
+        df = df[['valuation_date', 'final_signal']]
         return df
     def probability_processing(self,df_signal):
         df_index = self.index_return_withdraw()
@@ -119,16 +111,18 @@ class factor_backtesting_main:
         df_signal = df_signal[['valuation_date', 'portfolio',index_name]]
         df_signal.rename(columns={index_name:'index'},inplace=True)
         return df_signal
-    def backtesting_main(self,is_replace):
+    def backtesting_main(self):
         bp = Back_testing_processing(self.df_index_return)
         outputpath = glv.get('backtest_output')
         outputpath=os.path.join(outputpath,self.mode)
+        outputpath=os.path.join(outputpath,self.signal_type)
         outputpath=os.path.join(outputpath,self.signal_name)
-        outputpath=os.path.join(outputpath,'x_'+str(self.x))
+        if self.signal_type=='L3':
+            outputpath=os.path.join(outputpath,'x_'+str(self.x))
+        df_signal=self.raw_signal_withdraw()
+        df_prob=self.probability_processing(df_signal)
         outputpath_prob=os.path.join(outputpath,'positive_negative_probabilities.xlsx')
         gt.folder_creator2(outputpath)
-        df_signal=self.raw_signal_withdraw2(is_replace)
-        df_prob=self.probability_processing(df_signal)
         df_prob.to_excel(outputpath_prob, index=False)
         for index_name in ['沪深300','中证2000','大小盘等权']:
             if index_name=='大小盘等权':
@@ -138,74 +132,96 @@ class factor_backtesting_main:
             df_portfolio = self.signal_return_processing(df_signal, index_name)
             bp.back_testing_history(df_portfolio, outputpath, index_type, index_name, self.signal_name)
         return outputpath
-def technical_signal_calculator(df):
-    # Initialize result DataFrame
-    result_df = pd.DataFrame(columns=['portfolio_name', 'annual_return', 'regression_annual_return', 'max_drawdown', 'longest_new_high_days'])
-    
-    # Get portfolio columns (excluding valuation_date)
-    portfolio_cols = [col for col in df.columns if col != 'valuation_date']
-    
-    for portfolio in portfolio_cols:
-        # Calculate annualized return
-        nav0 = df[portfolio].iloc[0]
-        navt = df[portfolio].iloc[-1]
-        total_return = navt / nav0
-        t = len(df)  # Use total number of trading days
-        annual_return = (total_return ** (365/t) - 1) * 100  # Convert to annual rate and percentage
-        
-        # Calculate regression annualized return using ln(navt) - ln(navo) = kt
-        k = (np.log(navt) - np.log(nav0)) / t
-        regression_annual_return = k * 252 * 100  # Convert to annual rate and percentage
-        
-        # Calculate maximum drawdown
-        rolling_max = df[portfolio].expanding().max()
-        drawdowns = (df[portfolio] - rolling_max) / rolling_max
-        max_drawdown = abs(drawdowns.min()) * 100
-        
-        # Calculate longest new high days
-        rolling_max = df[portfolio].expanding().max()
-        new_highs = df[portfolio] >= rolling_max
-        longest_streak = 0
-        current_streak = 0
-        for is_new_high in new_highs:
-            if is_new_high:
-                current_streak += 1
-                longest_streak = max(longest_streak, current_streak)
+class factor_backtesting_main:
+    def __init__(self,signal_name,signal_type,start_date,end_date,mode='test'):
+        self.signal_name=signal_name
+        self.signal_type=signal_type
+        self.start_date=start_date
+        self.end_date=end_date
+        self.mode=mode
+        self.outputpath=self.outputpath_construct()
+    def outputpath_construct(self):
+        outputpath_tech = glv.get('backtest_output')
+        outputpath_tech = os.path.join(outputpath_tech, self.mode)
+        outputpath_tech=os.path.join(outputpath_tech,self.signal_type)
+        outputpath_tech = os.path.join(outputpath_tech, self.signal_name)
+        return outputpath_tech
+    def technical_signal_calculator(self,df):
+        # Initialize result DataFrame
+        result_df = pd.DataFrame(columns=['portfolio_name', 'annual_return', 'regression_annual_return', 'max_drawdown',
+                                          'longest_new_high_days'])
+
+        # Get portfolio columns (excluding valuation_date)
+        portfolio_cols = [col for col in df.columns if col != 'valuation_date']
+
+        for portfolio in portfolio_cols:
+            # Calculate annualized return
+            nav0 = df[portfolio].iloc[0]
+            navt = df[portfolio].iloc[-1]
+            total_return = navt / nav0
+            t = len(df)  # Use total number of trading days
+            annual_return = (total_return ** (365 / t) - 1) * 100  # Convert to annual rate and percentage
+
+            # Calculate regression annualized return using ln(navt) - ln(navo) = kt
+            k = (np.log(navt) - np.log(nav0)) / t
+            regression_annual_return = k * 252 * 100  # Convert to annual rate and percentage
+
+            # Calculate maximum drawdown
+            rolling_max = df[portfolio].expanding().max()
+            drawdowns = (df[portfolio] - rolling_max) / rolling_max
+            max_drawdown = abs(drawdowns.min()) * 100
+
+            # Calculate longest new high days
+            rolling_max = df[portfolio].expanding().max()
+            new_highs = df[portfolio] >= rolling_max
+            longest_streak = 0
+            current_streak = 0
+            for is_new_high in new_highs:
+                if is_new_high:
+                    current_streak += 1
+                    longest_streak = max(longest_streak, current_streak)
+                else:
+                    current_streak = 0
+
+            # Add results to DataFrame
+            result_df = pd.concat([result_df, pd.DataFrame({
+                'portfolio_name': [portfolio],
+                'annual_return': [annual_return],
+                'regression_annual_return': [regression_annual_return],
+                'max_drawdown': [max_drawdown],
+                'longest_new_high_days': [longest_streak]
+            })], ignore_index=True)
+
+        return result_df
+    def L3Singal_backtesting(self):
+        df_final = pd.DataFrame()
+        outputpath_tech=self.outputpath
+        outputpath_tech = os.path.join(outputpath_tech, '综合回测报告.xlsx')
+        for x in [0.55, 0.6, 0.65, 0.7, 0.75, 0.8]:
+            fb = factor_backtesting(self.signal_name, self.start_date, self.end_date, 0.00085, 'test', self.signal_type,x)
+            outputpath = fb.backtesting_main()
+            outputpath = os.path.join(outputpath, str(self.signal_name) +'_大小盘等权')
+            outputpath = os.path.join(outputpath, str(self.signal_name) +'回测.xlsx')
+            df = pd.read_excel(outputpath)
+            df = df[['valuation_date', '超额净值']]
+            df.columns = ['valuation_date', 'x_' + str(x)]
+            if x == 0.55:
+                df_final = df
             else:
-                current_streak = 0
-        
-        # Add results to DataFrame
-        result_df = pd.concat([result_df, pd.DataFrame({
-            'portfolio_name': [portfolio],
-            'annual_return': [annual_return],
-            'regression_annual_return': [regression_annual_return],
-            'max_drawdown': [max_drawdown],
-            'longest_new_high_days': [longest_streak]
-        })], ignore_index=True)
-    
-    return result_df
-def singleSingal_backtesting(signal_name,start_date,end_date,mode='test'):
-    df_final=pd.DataFrame()
-    outputpath_tech = glv.get('backtest_output')
-    outputpath_tech=os.path.join(outputpath_tech,mode)
-    outputpath_tech=os.path.join(outputpath_tech,signal_name)
-    outputpath_tech=os.path.join(outputpath_tech,'综合回测报告.xlsx')
-    for x in [0.55, 0.6, 0.65, 0.7, 0.75, 0.8]:
-        fb = factor_backtesting_main(signal_name, start_date,end_date, 0.00085, 'test', x)
-        outputpath=fb.backtesting_main(is_replace=False)
-        outputpath=os.path.join(outputpath,str(signal_name)+'_大小盘等权')
-        outputpath=os.path.join(outputpath,str(signal_name)+'回测.xlsx')
-        df = pd.read_excel(outputpath)
-        df = df[['valuation_date', '超额净值']]
-        df.columns = ['valuation_date', 'x_'+str(x)]
-        if x==0.55:
-            df_final=df
+                df_final = df_final.merge(df, on='valuation_date', how='left')
+        df_technical = self.technical_signal_calculator(df_final)
+        df_technical.to_excel(outputpath_tech, index=False)
+    def OtherSingal_backtesting(self):
+        fb = factor_backtesting(self.signal_name, self.start_date, self.end_date, 0.00085, 'test',self.signal_type)
+        outputpath = fb.backtesting_main()
+    def signalBacktesting_main(self):
+        if self.signal_type=='L3':
+            self.L3Singal_backtesting()
         else:
-            df_final=df_final.merge(df,on='valuation_date',how='left')
-    df_technical=technical_signal_calculator(df_final)
-    df_technical.to_excel(outputpath_tech,index=False)
+            self.OtherSingal_backtesting()
+
 if __name__ == "__main__":
-    for signal_name in ['M1M2']:
-          singleSingal_backtesting(signal_name,'2016-01-01','2025-06-04')
+    fbm=factor_backtesting_main('M1M2','L3','2016-01-01','2025-06-07',mode='test')
+    fbm.signalBacktesting_main()
 
 
