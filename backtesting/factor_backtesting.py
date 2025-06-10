@@ -8,7 +8,7 @@ import global_tools as gt
 import global_setting.global_dic as glv
 from backtesting.backtesting_tools import Back_testing_processing
 class factor_backtesting:
-    def __init__(self,signal_name,start_date,end_date,cost,mode,signal_type,x=None):
+    def __init__(self,signal_name,start_date,end_date,cost,mode,signal_type,x=None,is_sql=False):
         self.df_index_return=self.index_return_withdraw()
         self.signal_name=signal_name
         self.start_date=start_date
@@ -19,6 +19,7 @@ class factor_backtesting:
         self.signal_type=signal_type
         self.inputpath_base = glv.get(str(signal_type)+'_signalData')
         self.start_date=self.start_date_processing()
+        self.is_sql=False
 
     def start_date_processing(self):
         inputpath = self.inputpath_base
@@ -42,7 +43,7 @@ class factor_backtesting:
         df_return['中证2000'] = df_return['中证2000'].astype(float)
         return df_return
 
-    def raw_signal_withdraw(self):
+    def raw_signal_withdraw_local(self):
         df = pd.DataFrame()
         inputpath = self.inputpath_base
         inputpath = os.path.join(inputpath, self.mode)
@@ -57,6 +58,21 @@ class factor_backtesting:
                     df_daily = df_daily[df_daily['x'] == self.x]
                 df = pd.concat([df, df_daily])
         df = df[['valuation_date', 'final_signal']]
+        return df
+    def raw_signal_withdraw_sql(self):
+        sql=f"Select * from timeselecting_'{self.signal_type}'_'{self.mode}' Where signal_name='{self.signal_name}' And valuation_date BETWEEN '{self.start_date}' AND '{self.end_date}'"
+        inputpath_config=glv.get('config_path')
+        df=gt.data_getting(sql,inputpath_config)
+        df=df[['valuation_date','final_signal']]
+        if self.signal_type=='L3':
+            df=df[df['x']==self.x]
+        df.sort_values('valuation_date',inplace=True)
+        return df
+    def raw_signal_withdraw(self):
+        if self.is_sql==False:
+            df=self.raw_signal_withdraw_local()
+        else:
+            df=self.raw_signal_withdraw_sql()
         return df
     def probability_processing(self,df_signal):
         df_index = self.index_return_withdraw()
@@ -133,13 +149,14 @@ class factor_backtesting:
             bp.back_testing_history(df_portfolio, outputpath, index_type, index_name, self.signal_name)
         return outputpath
 class factor_backtesting_main:
-    def __init__(self,signal_name,signal_type,start_date,end_date,mode='test'):
+    def __init__(self,signal_name,signal_type,start_date,end_date,mode='test',is_sql=False):
         self.signal_name=signal_name
         self.signal_type=signal_type
         self.start_date=start_date
         self.end_date=end_date
         self.mode=mode
         self.outputpath=self.outputpath_construct()
+        self.is_sql=is_sql
     def outputpath_construct(self):
         outputpath_tech = glv.get('backtest_output')
         outputpath_tech = os.path.join(outputpath_tech, self.mode)
@@ -198,7 +215,7 @@ class factor_backtesting_main:
         outputpath_tech=self.outputpath
         outputpath_tech = os.path.join(outputpath_tech, '综合回测报告.xlsx')
         for x in [0.55, 0.6, 0.65, 0.7, 0.75, 0.8]:
-            fb = factor_backtesting(self.signal_name, self.start_date, self.end_date, 0.00085, 'test', self.signal_type,x)
+            fb = factor_backtesting(self.signal_name, self.start_date, self.end_date, 0.00085, 'test', self.signal_type,x,self.is_sql)
             outputpath = fb.backtesting_main()
             outputpath = os.path.join(outputpath, str(self.signal_name) +'_大小盘等权')
             outputpath = os.path.join(outputpath, str(self.signal_name) +'回测.xlsx')
@@ -212,7 +229,7 @@ class factor_backtesting_main:
         df_technical = self.technical_signal_calculator(df_final)
         df_technical.to_excel(outputpath_tech, index=False)
     def OtherSingal_backtesting(self):
-        fb = factor_backtesting(self.signal_name, self.start_date, self.end_date, 0.00085, 'test',self.signal_type)
+        fb = factor_backtesting(self.signal_name, self.start_date, self.end_date, 0.00085, 'test',self.signal_type,self.is_sql)
         outputpath = fb.backtesting_main()
     def signalBacktesting_main(self):
         if self.signal_type=='L3':
@@ -221,7 +238,7 @@ class factor_backtesting_main:
             self.OtherSingal_backtesting()
 
 if __name__ == "__main__":
-    fbm=factor_backtesting_main('M1M2','L3','2016-01-01','2025-06-07',mode='test')
+    fbm=factor_backtesting_main('TermSpread_9Y','L3','2016-01-01','2025-06-07',mode='test',is_sql=False)
     fbm.signalBacktesting_main()
 
 

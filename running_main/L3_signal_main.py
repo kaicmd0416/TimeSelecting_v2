@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pandas as pd
 from numpy import *
 from data.data_prepare import data_prepare
@@ -11,7 +13,7 @@ import global_tools as gt
 import global_setting.global_dic as glv
 import os
 class single_signal_main:
-    def __init__(self,signal_name,mode):
+    def __init__(self,signal_name,mode,is_sql=False):
         self.signal_name=signal_name
         self.mode = mode
         self.dp=data_prepare()
@@ -20,6 +22,7 @@ class single_signal_main:
         self.sc=signal_construct()
         self.df_signal,self.sc_mode=self.raw_data_preparing()
         self.df_signal['valuation_date']=self.df_signal['valuation_date'].apply(lambda x: gt.strdate_transfer(x))
+        self.is_sql=is_sql
     def final_signal_construction(self,final_signal,x):
         if final_signal > x:
             return 1  # 沪深300
@@ -184,12 +187,18 @@ class single_signal_main:
     def signal_main(self,start_date,end_date):
         x_list=[0.55,0.6,0.65,0.7,0.75,0.8]
         signal_name=self.signal_name
-        outputpath = glv.get('signal_data')
+        outputpath = glv.get('L3_signalData')
         outputpath=os.path.join(outputpath,str(self.mode))
         outputpath=os.path.join(outputpath,str(signal_name))
         gt.folder_creator2(outputpath)
         start_date=self.start_date_processing(start_date)
         working_days_list = gt.working_days_list(start_date, end_date)
+        inputpath_configsql = glv.get('config_sql')
+        if self.mode=='test':
+             sm = gt.sqlSaving_main(inputpath_configsql, 'L3_signal_test')
+        else:
+             sm= gt.sqlSaving_main(inputpath_configsql, 'L3_signal_prod')
+        df_sql=pd.DataFrame()
         for date in working_days_list:
             df_final = pd.DataFrame()
             final_signal_list = []
@@ -224,6 +233,13 @@ class single_signal_main:
             df_final=df_final[['valuation_date','final_signal','x']]
             if len(df_final)>0:
                  df_final.to_csv(outputpath_daily,index=False)
+                 df_sql=pd.concat([df_sql,df_final])
+        df_sql['signal_name']=self.signal_name
+        if self.is_sql==True:
+             current_time = datetime.now().strftime('%Y-%m-%d %H:%M')
+             df_sql['update_time']=current_time
+             sm.df_to_sql(df_sql)
+
 if __name__ == "__main__":
-    ssm=single_signal_main(signal_name='M1M2',mode='test')
-    ssm.signal_main(start_date='2015-01-01',end_date='2025-06-04')
+    ssm=single_signal_main(signal_name='TermSpread_9Y',mode='test',is_sql=False)
+    ssm.signal_main(start_date='2015-01-01',end_date='2025-06-09')

@@ -135,12 +135,12 @@ class data_prepare:
     #美国方面
     #美元指数
     def raw_usdx(self):
-        inputpath = glv.get('raw_USDX')
+        inputpath = glv.get('raw_usdx')
         if source == 'sql':
             inputpath = str(inputpath) + " WHERE organization = 'USDollar' AND type = 'close'"
         df1 = gt.data_getting(inputpath, config_path)
-        if source == 'sql':
-            df1 = self.df1_transformer(df1, 'macroData')
+        df1=df1[['valuation_date','value']]
+        df1.columns=['valuation_date','USDX']
         df1['valuation_date'] = pd.to_datetime(df1['valuation_date'])
         df1['valuation_date'] = df1['valuation_date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         return df1

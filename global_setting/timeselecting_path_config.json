@@ -42,9 +42,19 @@
             "folder_type": "project_config",
             "path": "TimeSelecting_v2\\config_project",
             "disk": "D"
+        },
+        {
+            "folder_type": "global_config",
+            "path": "TimeSelecting_v2\\global_setting",
+            "disk": "D"
         }
     ],
     "sub_folder": [
+        {
+            "data_type": "config_sql",
+            "folder_name": "timeselecting_sql.yaml",
+            "folder_type": "global_config"
+        },
         {
             "data_type": "raw_Shibor",
             "folder_name": "macro_data\\Shibor.csv",
@@ -176,6 +186,12 @@
             "folder_name": "index_data\\indexFutureDifference.csv",
             "folder_type": "input_folder",
             "sql_sheet": "data_indexother"
+        },
+        {
+            "data_type": "raw_usdx",
+            "folder_name": "us_data\\USDollar.csv",
+            "folder_type": "input_folder",
+            "sql_sheet": "data_us"
         },
         {
             "data_type": "raw_rrscoreDifference",

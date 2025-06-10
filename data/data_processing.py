@@ -40,6 +40,7 @@ class data_processing:
          df_1Y= self.dp.raw_ZZGK(period='1Y')
          df_zzzd=df_1Y.merge(df_10Y,on='valuation_date',how='outer')
          df_zzzd.dropna(inplace=True)
+         df_zzzd=df_zzzd[df_zzzd['valuation_date']>'2017-08-01']
          df_zzzd['term_spread_9Y']=abs(df_zzzd['CDBB_10Y']-df_zzzd['CDBB_1Y'])
          df_zzzd=df_zzzd[['valuation_date','term_spread_9Y']]
          return df_zzzd
@@ -505,6 +506,7 @@ class data_processing:
 
 if __name__ == "__main__":
     dpro=data_processing()
-    df=dpro.raw_rrscoreDifference()
+    df=dpro.term_spread_9Y()
+    df.set_index('valuation_date',inplace=True)
     df.plot()
     plt.show()
